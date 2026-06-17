@@ -10,9 +10,11 @@ app.use(express.json());
 const authRoutes = require("./routes/authRoutes");
 const studentRoutes = require("./routes/studentRoutes");
 const blockRoutes = require("./routes/blockRoutes");
+const dormRoutes = require("./routes/dormRoutes"); 
 app.use("/api/auth", authRoutes);
 app.use("/api/students", studentRoutes);
 app.use("/api/blocks", blockRoutes);
+app.use("/api/dorms", dormRoutes); 
 
 
 
