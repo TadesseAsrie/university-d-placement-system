@@ -49,5 +49,6 @@ router.delete(
 
 // --- ADMIN or OWNER: Get specific student by ID ---
 router.get("/:id", validateStudentIdParam, studentController.getStudentById);
+router.get("/me/placement",  studentController.getMyPlacement);
 
 module.exports = router;

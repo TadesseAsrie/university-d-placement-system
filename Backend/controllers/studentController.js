@@ -234,3 +234,54 @@ exports.deleteStudent = async (req, res) => {
     return errorResponse(res, error.message, 500);
   }
 };
+// controllers/studentController.js
+
+// --- STUDENT ONLY: Get my placement and roommates ---
+exports.getMyPlacement = async (req, res) => {
+  try {
+    // 1. Find the student linked to this user
+    const student = await Student.findByUserId(req.user.id);
+    if (!student) {
+      return errorResponse(res, 'Student profile not found', 404);
+    }
+
+    // 2. Get the student's placement for the active academic year
+    const [rows] = await db.execute(
+      `SELECT p.*, 
+              b.block_name, 
+              d.dorm_number, 
+              ay.label as academic_year_label
+       FROM placements p
+       JOIN blocks b ON p.block_id = b.id
+       JOIN dorms d ON p.dorm_id = d.id
+       JOIN academic_years ay ON p.academic_year_id = ay.id
+       WHERE p.student_id = ?
+       ORDER BY p.id DESC LIMIT 1`,
+      [student.id]
+    );
+
+    if (rows.length === 0) {
+      return successResponse(res, 'No placement found', null);
+    }
+
+    const placement = rows[0];
+
+    // 3. Get roommates (other students in the same dorm + academic year)
+    const [roommates] = await db.execute(
+      `SELECT s.first_name, s.last_name, s.department
+       FROM placements p
+       JOIN students s ON p.student_id = s.id
+       WHERE p.dorm_id = ? 
+         AND p.academic_year_id = ? 
+         AND p.student_id != ?
+       LIMIT 10`,
+      [placement.dorm_id, placement.academic_year_id, student.id]
+    );
+
+    placement.roommates = roommates;
+
+    return successResponse(res, 'Placement fetched successfully', placement);
+  } catch (error) {
+    return errorResponse(res, error.message, 500);
+  }
+};
