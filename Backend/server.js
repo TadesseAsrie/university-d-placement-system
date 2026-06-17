@@ -8,7 +8,9 @@ app.use(cors());
 app.use(express.json());
 
 const authRoutes = require("./routes/authRoutes");
+const studentRoutes = require("./routes/studentRoutes");
 app.use("/api/auth", authRoutes);
+app.use("/api/students", studentRoutes);
 
 
 
