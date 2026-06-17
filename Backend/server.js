@@ -13,12 +13,14 @@ const blockRoutes = require("./routes/blockRoutes");
 const dormRoutes = require("./routes/dormRoutes"); 
 const placementRoutes = require("./routes/placementRoutes");
 const academicYearRoutes = require("./routes/academicYearRoutes");
+const reportRoutes = require("./routes/reportRoutes");
 app.use("/api/auth", authRoutes);
 app.use("/api/students", studentRoutes);
 app.use("/api/blocks", blockRoutes);
 app.use("/api/dorms", dormRoutes); 
 app.use("/api/placements", placementRoutes);
  app.use("/api/academic-years", academicYearRoutes);
+app.use("/api/reports", reportRoutes);
 
 
 
