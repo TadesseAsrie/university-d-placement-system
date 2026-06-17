@@ -13,7 +13,7 @@ const MyPlacement = () => {
 
   const fetchPlacement = async () => {
     try {
-      const response = await api.get("/student/placement");
+      const response = await api.get("/students/me/placement");
       setPlacement(response.data.data);
     } catch (error) {
       console.error("Failed to fetch placement:", error);

@@ -15,6 +15,7 @@ const StudentRoute = ({ children }) => {
   if (!user || user.role !== "student") {
     return <Navigate to="/login" replace />;
   }
+  
 
   return children;
 };
