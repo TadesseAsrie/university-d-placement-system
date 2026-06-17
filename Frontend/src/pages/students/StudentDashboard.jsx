@@ -21,7 +21,7 @@ const StudentDashboard = () => {
     try {
       const [profileRes, placementRes] = await Promise.all([
         api.get("/students/me/profile"),
-        api.get("/student/placement"), // You'll need to add this endpoint
+        api.get("/students/me/placement"), // You'll need to add this endpoint
       ]);
       setProfile(profileRes.data.data.student);
       setPlacement(placementRes.data.data);

@@ -12,9 +12,11 @@ const AdminRoute = ({ children }) => {
     );
   }
 
-  if (!user || user.role !== "admin") {
-    return <Navigate to="/dashboard" replace />;
+   if (!user) {
+    return <Navigate to="/login" replace />;
   }
+
+
 
   return children;
 };
