@@ -11,6 +11,7 @@ import {
   ChartBarIcon,
   UserIcon,
   XMarkIcon,
+  AcademicCapIcon,
 } from "@heroicons/react/24/outline";
 
 const Sidebar = ({ isOpen, onClose }) => {
@@ -21,6 +22,7 @@ const Sidebar = ({ isOpen, onClose }) => {
     { to: "/students", icon: UserGroupIcon, label: "Students" },
     { to: "/blocks", icon: BuildingOfficeIcon, label: "Blocks" },
     { to: "/dorms", icon: HomeModernIcon, label: "Dorms" },
+    { to: "/academic-year", icon: AcademicCapIcon, label: "Academic Year" },
     { to: "/placements", icon: ClipboardIcon, label: "Placements" },
     { to: "/reports", icon: ChartBarIcon, label: "Reports" },
   ];

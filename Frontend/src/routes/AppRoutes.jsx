@@ -14,6 +14,7 @@ import MyPlacement from "../pages/students/MyPlacement";
 import AdminRoute from "./AdminRoute";
 import StudentRoute from "./StudentRoute";
 import DashboardLayout from "../components/layout/DashboardLayout";
+import AcademicYear from "../pages/academic/AcademicYears";
 
 const AppRoutes = () => {
   const { user } = useAuth();
@@ -108,6 +109,14 @@ const AppRoutes = () => {
             <StudentRoute>
               <MyPlacement />
             </StudentRoute>
+          }
+        />
+        <Route
+          path="academic-year"
+          element={
+            <AdminRoute>
+              <AcademicYear />
+            </AdminRoute>
           }
         />
       </Route>
