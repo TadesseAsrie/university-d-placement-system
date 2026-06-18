@@ -1,5 +1,4 @@
 
-// export default Login;
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -15,17 +14,28 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const navigate = useNavigate();
+
+  // 🔥 Redirect based on role AFTER login (triggered when user changes)
+  useEffect(() => {
+    if (user) {
+      if (user.role === "admin") {
+        navigate("/dashboard", { replace: true });
+      } else if (user.role === "student") {
+        navigate("/student/dashboard", { replace: true });
+      } else {
+        navigate("/dashboard", { replace: true });
+      }
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     const result = await login(username, password);
     setLoading(false);
-    if (result.success) {
-      navigate("/dashboard");
-    }
+    // The useEffect above will handle redirection after user is set
   };
 
   return (
@@ -40,15 +50,11 @@ const Login = () => {
           backgroundAttachment: "fixed",
         }}
       >
-        {/* Gradient Overlay - Dark with subtle blue tint */}
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900/95 via-slate-900/85 to-blue-900/80"></div>
-
-        {/* Decorative Gradient Orbs */}
         <div className="absolute top-[-20%] right-[-10%] w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-[-30%] left-[-10%] w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/5 rounded-full blur-3xl animate-pulse delay-2000"></div>
 
-        {/* Floating Icons */}
         <div className="absolute top-20 left-20 text-white/5 hidden lg:block">
           <AcademicCapIcon className="w-32 h-32" />
         </div>
@@ -57,7 +63,7 @@ const Login = () => {
         </div>
       </div>
 
-      {/* Login Card - Centered with perfect spacing */}
+      {/* Login Card */}
       <div className="relative z-10 w-full max-w-md">
         {/* Brand Section */}
         <div className="text-center mb-8 animate-fade-in">
@@ -77,7 +83,7 @@ const Login = () => {
           </p>
         </div>
 
-        {/* Glass Card - Perfectly blended */}
+        {/* Glass Card */}
         <div
           className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl 
           shadow-[0_8px_32px_rgba(0,0,0,0.4)] p-8 animate-slide-up"
@@ -90,7 +96,6 @@ const Login = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Username Field */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1.5">
                 Username
@@ -114,7 +119,6 @@ const Login = () => {
               </div>
             </div>
 
-            {/* Password Field */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <label className="block text-sm font-medium text-gray-300">
@@ -147,7 +151,6 @@ const Login = () => {
               </div>
             </div>
 
-            {/* Remember Me */}
             <div className="flex items-center">
               <input
                 type="checkbox"
@@ -159,7 +162,6 @@ const Login = () => {
               </label>
             </div>
 
-            {/* Submit Button - Gradient with hover effect */}
             <button
               type="submit"
               disabled={loading}
@@ -206,7 +208,6 @@ const Login = () => {
             </button>
           </form>
 
-          {/* Footer */}
           <div className="mt-8 pt-6 border-t border-white/5 text-center">
             <p className="text-xs text-gray-500">
               &copy; {new Date().getFullYear()} DormitoryMS. All rights
@@ -223,7 +224,6 @@ const Login = () => {
         </div>
       </div>
 
-      {/* Animation Keyframes */}
       <style>{`
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(-20px); }
@@ -238,12 +238,6 @@ const Login = () => {
         }
         .animate-slide-up {
           animation: slideUp 0.6s ease-out forwards;
-        }
-        .delay-1000 {
-          animation-delay: 1s;
-        }
-        .delay-2000 {
-          animation-delay: 2s;
         }
       `}</style>
     </div>
